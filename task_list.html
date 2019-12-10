@@ -1,0 +1,117 @@
+<div class="page">
+
+	<!-- Page 1 -->
+	<section>
+		<h1>Ajouter un item</h1>
+		<input type="text" id="item" placeholder="Item"><br>
+		<input type="number" id="nombre" placeholder="Nombre"><br>
+		<input type="number" id="prix" placeholder="Prix">€<br>
+		<button onclick="add()">Ajouter</button><br>
+		<small id="alert_display" style="color:red;"></small>
+
+	</section>
+	
+	<!-- Page 2 -->
+	<section>
+		<h2>Shopping List</h2>
+		<p id="prix_total_display"></p>
+		<ul id="list">
+		</ul>
+	</section>
+
+</div>
+
+<script type="text/javascript">
+
+var items = [];
+var item = document.getElementById('item');
+var nombre = document.getElementById('nombre');
+var list = document.getElementById("list");
+var prix = document.getElementById('prix');
+var prix_total_display = document.getElementById('prix_total_display');
+var alert_display = document.getElementById('alert_display');
+var display = "";
+var prix_total;
+
+function add(){
+	if (item.value == "" || prix.value == "" || nombre.value == "") {
+		alert_display.innerHTML = "Veuillez remplir tous les champs avant de valider votre item"
+	}else{
+		alert_display.innerHTML = "";
+		var added = items.push([item.value,parseInt(nombre.value),parseInt(prix.value)]);
+		displayer();
+	}
+}
+
+function remove(element){
+	var removed = items.splice(element, 1);
+	displayer();
+}
+
+function displayer(){
+	if (item.value == "" || prix.value == "" || nombre.value == "") {
+		list.innerHTML = "Veuillez ajouter un item";
+	}else{
+		display = "";
+		prix_total = 0;
+		for (var i = 0; i < items.length; i++) {
+			display += "<li>"+items[i][0]+" - "+items[i][1]+" - "+items[i][2]+"€";
+			display += "<button onclick='remove("+i+")'>Supprimer</button></li>";
+			prix_total += items[i][2];
+		};
+		prix_total_display.innerHTML = "Prix total : "+prix_total+"€";
+		list.innerHTML = display;
+	}
+}
+displayer();
+
+</script>
+
+<style type="text/css">
+html, body{
+	margin:0;padding: 0;
+	overflow: hidden;
+	font-family: Roboto;
+}
+
+.page{
+	width: 100vw;
+	height: 100vh;
+	padding: 20px;
+}
+
+section{
+	width: 50%;
+	height: 100%;
+	float: left;
+	background: white;
+	outline: 1px solid white;
+}
+
+input{
+	min-height: 30px;
+	margin-bottom: 5px;
+	outline: 0;
+	border: 0;
+	border-bottom: 1px solid black;
+}
+
+ul{padding: 0;}
+
+li{
+	list-style-type: none;
+	padding: 5px 10px;
+	background: rgba(0,0,0,0.1);
+	width: 60%;
+	border-radius: 5px;
+	margin-bottom: 5px;
+}
+
+li button{
+	outline:0;
+	border: 0;
+	color: red;
+	float: right;
+}
+
+</style>
